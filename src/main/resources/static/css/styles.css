@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+main {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff; 
+    text-align: center; 
+}
+
+h1, h2 {
+    color: #333;
+}
+
+strong {
+    color: #555;
+}
+
+address {
+    font-style: normal;
+    color: #777;
+    /* display: inline-block; */
+}
+
+details {
+    cursor: pointer;
+}
+
+h3 {
+    font-weight: 50;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+#puppyImage {
+    width: 100%;    /* This will stretch the image to the full width of the container */
+    max-width: 100%; /* Ensuring it doesn't overflow */
+    height: auto;  /* This will maintain the aspect ratio */
+    object-fit: cover; /* Ensures that the image covers the full width without distortion */
+    margin-bottom: 20px; 
+}
+.nav-container {
+    display: flex;
+    flex-direction: raw;
+    justify-content: space-around;  /* Equally spaced */
+    align-items: center;  /* Centered vertically */
+    background-color: #333;  /* Background color */
+    color: white;
+}
+.nav-container ul {
+    list-style-type: none;
+}
+.links a {
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+}
+
