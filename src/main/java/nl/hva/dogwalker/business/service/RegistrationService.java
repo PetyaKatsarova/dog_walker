@@ -1,7 +1,9 @@
 package nl.hva.dogwalker.business.service;
 
 import nl.hva.dogwalker.business.domain.User;
+import nl.hva.dogwalker.persistence.repository.UserRepository;
 import nl.hva.dogwalker.persistence.dao.JdbcUserDao;
+import nl.hva.dogwalker.util.security.VerificationToken;
 import nl.hva.dogwalker.util.security.password.PasswordCheckerService;
 import nl.hva.dogwalker.util.security.password.HashAndSaltUtil;
 import nl.hva.dogwalker.util.security.password.HashService;
@@ -19,11 +21,13 @@ public class RegistrationService {
     private final JdbcUserDao               jdbcUserDao;
     private final HashService               hashService;
     private final PasswordCheckerService    passwordCheckerService;
+    private final UserRepository            userRepository;
 
-    public RegistrationService(JdbcUserDao jdbcUserDao, HashService hashService, PasswordCheckerService passwordCheckerService) {
+    public RegistrationService(JdbcUserDao jdbcUserDao, HashService hashService, PasswordCheckerService passwordCheckerService, UserRepository userRepository) {
         this.jdbcUserDao = jdbcUserDao;
         this.hashService = hashService;
         this.passwordCheckerService = passwordCheckerService;
+        this.userRepository = userRepository;
         logger.info("New RegistrationService");
     }
 
@@ -54,6 +58,12 @@ public class RegistrationService {
 
     private String getHashFromHashSalt(String hashedPassword) {
         return HashAndSaltUtil.getHashFromHashSalt(hashedPassword);
+    }
+
+    public void saveUserVerificationToken(User theUser, String token) {
+//        VerificationToken verificationToken = new VerificationToken(token, theUser);
+//        userRepository.saveVerificationToken(verificationToken);
+
     }
 
 }

@@ -2,6 +2,7 @@ package nl.hva.dogwalker.persistence.repository;
 
 import nl.hva.dogwalker.business.domain.User;
 import nl.hva.dogwalker.persistence.dao.JdbcUserDao;
+import nl.hva.dogwalker.persistence.dao.JdbcVerificationTokenDao;
 import nl.hva.dogwalker.util.security.password.PasswordCheckerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,12 @@ public class UserRepository {
     private final Logger logger = LoggerFactory.getLogger(UserRepository.class);
     private final JdbcUserDao jdbcUserDao;
     private final PasswordCheckerService passwordCheckerService;
+    private final JdbcVerificationTokenDao jdbcVerificationTokenDao;
 
-    public UserRepository(JdbcUserDao jdbcUserDao, PasswordCheckerService passwordCheckerService) {
+    public UserRepository(JdbcUserDao jdbcUserDao, PasswordCheckerService passwordCheckerService, JdbcVerificationTokenDao jdbcVerificationTokenDao) {
         this.jdbcUserDao = jdbcUserDao;
         this.passwordCheckerService = passwordCheckerService;
+        this.jdbcVerificationTokenDao = jdbcVerificationTokenDao;
         logger.info("New UserRepository");
     }
 
@@ -41,6 +44,10 @@ public class UserRepository {
     public User updateUser(User user) {
         return jdbcUserDao.updateUser(user);
     }
+
+//    public boolean updateUserIdentificatieToken(User user) {
+//        return jdbcUserDao.updateUserIdentificatieToken(user);
+//    }
 
     public User finduserByJwtToken(String jwtoken) {
         return jdbcUserDao.findUserByjwtToken(jwtoken);
