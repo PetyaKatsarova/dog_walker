@@ -1,4 +1,4 @@
-package nl.hva.dogwalker.util.security;
+package nl.hva.dogwalker.util.security.password;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HashService {
     private static final int    DEFAULT_ROUNDS = 1;
-    private PepperService       pepperService;
-    private SaltMaker           saltMaker;
+    private PepperService pepperService;
+    private SaltMaker saltMaker;
     private int                 rounds;
 
     @Autowired

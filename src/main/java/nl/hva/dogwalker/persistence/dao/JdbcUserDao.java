@@ -33,9 +33,8 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User saveUser(User user) {
-//        this check is done in a higher layer
-//        if (isEmailExists(user.getEmail()))
-//            throw new RuntimeException("Email already exists");
+//            if (isEmailExists(user.getEmail()))
+//                throw new RuntimeException("Email already exists"); // error status 409
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> buildInsertCustomerStatement(user, connection), keyHolder);
@@ -58,11 +57,11 @@ public class JdbcUserDao implements UserDao {
         ps.setString(3, user.getSalt());
         return ps;
     }
-//    public boolean isEmailExists(String email) {
-//        String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
-//        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class);
-//        return count != null && count > 0;
-//    }
+    public boolean isEmailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class);
+        return count != null && count > 0;
+    }
 
     public Optional<User> findUserByEmail(String email) {
         String sql = "SELECT * FROM user WHERE email = ?";

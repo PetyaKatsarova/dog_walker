@@ -1,4 +1,4 @@
-package nl.hva.dogwalker.util.password;
+package nl.hva.dogwalker.util.security.password;
 
 /**
  * Description:

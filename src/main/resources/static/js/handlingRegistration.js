@@ -30,6 +30,12 @@ const handleErrors = function (response) {
     if (response.status === 201) {
         return response.text();
     }
+    if (response.status === 409 || response.status === 500) { // or 409?
+        return response.text().then(errorText => {
+            alert("Email already exists. Go to login page");
+            throw new Error("Email already exists");
+        });
+    }
     return response.text().then(errorText => {
         throw {
             status: response.status,
@@ -39,8 +45,10 @@ const handleErrors = function (response) {
     });
 }
 
+
 const succeed = function (data) {
     window.location.href = '../html/login.html';
+    alert("you have registered successfully.");
 }
 
 const fail = function (error) {
@@ -52,9 +60,6 @@ const fail = function (error) {
 
     if (error.status === 400) {
         console.error('Bad Request:', error.message);
-    } else if (error.status === 409) {
-        if (error.message.includes("User with this email already exists"))
-            console.error('Conflict - User:', error.message);
     } else if (error.status === 503) {
         console.error('Service Unavailable:', error.message);
     } else {
@@ -68,10 +73,10 @@ toggleButton.forEach(btn => {
         const currentInput = e.target.parentElement.nextElementSibling;
 
         if (currentInput.type === 'password') {
-           currentInput.type = 'text';
+            currentInput.type = 'text';
             btn.textContent = 'Hide';
         } else {
-           currentInput.type = 'password';
+            currentInput.type = 'password';
             btn.textContent = 'Show';
         }
     });

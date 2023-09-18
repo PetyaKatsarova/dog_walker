@@ -10,31 +10,27 @@ package nl.hva.dogwalker.communication.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import nl.hva.dogwalker.business.domain.User;
 import nl.hva.dogwalker.business.service.RegistrationService;
-import nl.hva.dogwalker.communication.dto.RegistrationDTO;
+import nl.hva.dogwalker.business.service.UserService;
+import nl.hva.dogwalker.util.excetions.EmailAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import nl.hva.dogwalker.exception.PasswordNotValidException;
-import nl.hva.dogwalker.exception.UserExistsException;
-import nl.hva.dogwalker.util.event.RegistrationCompleteEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RegistrationController {
 
     private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-    private final RegistrationService registrationService;
+    private final RegistrationService   registrationService;
+
+    private final UserService           userService;
 //    private final ApplicationEventPublisher publisher; todo: expand the app
 
-    public RegistrationController(RegistrationService registrationService) {
+    public RegistrationController(RegistrationService registrationService, UserService userService) {
         this.registrationService = registrationService;
+        this.userService = userService;
         logger.info("New RegistrationController");
     }
 
@@ -43,13 +39,14 @@ public class RegistrationController {
         return lala + " ** Hello from the other side.... do u want to singup for dog walking services? : )";
     }
 
-//, final HttpServletRequest request
     @PostMapping("/signup")
-    public ResponseEntity<String> userSignInHandler(@RequestBody SignupRequest signupRequest) {
-        String email = signupRequest.getEmail();
-        String password = signupRequest.getPassword();
-        User user = registrationService.register(email, password);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+    public ResponseEntity<?> userSignInHandler(@RequestBody SignupRequest signupRequest) {
+        try {
+            User user = registrationService.register(signupRequest.getEmail(), signupRequest.getPassword());
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        } catch (EmailAlreadyExistsException ex) {
+            return new ResponseEntity<>("Email already exists", HttpStatus.CONFLICT);
+        }
     }
 
     private static class SignupRequest {
@@ -68,9 +65,8 @@ public class RegistrationController {
         public void setPassword(String password) {
             this.password = password;
         }
-
-        // getters and setters
     }
+
 
 //    @PostMapping("/signup")
 //    public ResponseEntity<String> userSignInHandler(@RequestParam String email, @RequestParam String password,

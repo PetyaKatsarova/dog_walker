@@ -1,6 +1,6 @@
-package nl.hva.dogwalker.util.security;
+package nl.hva.dogwalker.util.security.password;
 
-import nl.hva.dogwalker.util.security.ByteArrayToHexHelper;
+import nl.hva.dogwalker.util.security.password.ByteArrayToHexHelper;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;

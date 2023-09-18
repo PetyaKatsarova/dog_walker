@@ -1,4 +1,4 @@
-package nl.hva.dogwalker.util.security;
+package nl.hva.dogwalker.util.security.password;
 
 import org.springframework.stereotype.Service;
 

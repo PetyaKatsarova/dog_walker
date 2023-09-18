@@ -1,4 +1,4 @@
-package nl.hva.dogwalker.util.security;
+package nl.hva.dogwalker.util.security.password;
 
 /**
  * Description:
@@ -6,7 +6,7 @@ package nl.hva.dogwalker.util.security;
  * Email: pskpetya@gmail.com
  * Created on: 24/08/2023 09:43
  */
-import nl.hva.dogwalker.util.security.ByteArrayToHexHelper;
+import nl.hva.dogwalker.util.security.password.ByteArrayToHexHelper;
 import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 

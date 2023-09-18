@@ -1,7 +1,7 @@
 package nl.hva.dogwalker.business.service;
 
 import nl.hva.dogwalker.persistence.repository.CustomerRepository;
-import nl.hva.dogwalker.util.security.HashService;
+import nl.hva.dogwalker.util.security.password.HashService;
 
 /**
  * Description:

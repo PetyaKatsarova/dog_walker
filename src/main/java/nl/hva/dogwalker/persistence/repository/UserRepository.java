@@ -2,14 +2,12 @@ package nl.hva.dogwalker.persistence.repository;
 
 import nl.hva.dogwalker.business.domain.User;
 import nl.hva.dogwalker.persistence.dao.JdbcUserDao;
-import nl.hva.dogwalker.util.password.PasswordCheckerService;
+import nl.hva.dogwalker.util.security.password.PasswordCheckerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import nl.hva.dogwalker.util.security.HashService;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 /**
  * Description:

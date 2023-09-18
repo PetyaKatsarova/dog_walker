@@ -2,20 +2,16 @@ package nl.hva.dogwalker.business.service;
 
 import nl.hva.dogwalker.business.domain.User;
 import nl.hva.dogwalker.persistence.dao.JdbcUserDao;
-import nl.hva.dogwalker.persistence.repository.UserRepository;
-import nl.hva.dogwalker.util.password.PasswordCheckerService;
-import nl.hva.dogwalker.util.security.HashAndSaltUtil;
-import nl.hva.dogwalker.util.security.HashService;
+import nl.hva.dogwalker.util.security.password.PasswordCheckerService;
+import nl.hva.dogwalker.util.security.password.HashAndSaltUtil;
+import nl.hva.dogwalker.util.security.password.HashService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import nl.hva.dogwalker.communication.dto.RegistrationDTO;
 import nl.hva.dogwalker.exception.PasswordNotValidException;
 import nl.hva.dogwalker.exception.UserExistsException;
 
 import java.util.Optional;
-
-import static nl.hva.dogwalker.util.security.HashAndSaltUtil.*;
 
 @Service
 public class RegistrationService {
@@ -34,9 +30,8 @@ public class RegistrationService {
     public User register(String email, String password) throws UserExistsException, PasswordNotValidException {
         Optional<User> existingUserOpt = jdbcUserDao.findUserByEmail(email);
         logger.info("registration service register: " + existingUserOpt);
-
         if (existingUserOpt.isPresent())
-            throw new UserExistsException("User with email " + email + " already exists");
+            throw new UserExistsException("Email already exists");
         if (!passwordCheckerService.isPasswordValid(password))
             throw new PasswordNotValidException("Password is not valid");
 
