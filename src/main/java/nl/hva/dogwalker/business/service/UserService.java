@@ -28,14 +28,16 @@ public class UserService {
     }
 
     public User findUserByEmail(String email) {
-        try{
-            return userRepository.findUserByEmail(email);
-        } catch (NoSuchElementException ex){
-            System.err.println("Exception in UserService: " + ex.getMessage());
-            return null;
-            // or could use:
-//              System.err.println("Exception in UserService: " + ex.getMessage());
-//        throw new NoSuchElementException("User with email " + email + " was not found in UserService.");
-        }
+        return userRepository.findUserByEmail(email);
     }
+
+//    public User findUserByEmail(String email) {
+//        try{
+//            return userRepository.findUserByEmail(email);
+//        } catch (NoSuchElementException ex){
+//            System.err.println("Exception in UserService: " + ex.getMessage());
+//            return null;
+//
+//        }
+//    }
 }

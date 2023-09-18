@@ -15,6 +15,8 @@ public class User {
     private String          password;
     private String          email;
     private String          salt;
+    private boolean         isVerified;
+    private String          jwtToken;
 
     public User() {
         super();
@@ -22,6 +24,8 @@ public class User {
         this.email = "";
         this.password = "";
         this.salt = null;
+        this.isVerified = false;
+        this.jwtToken = null;
         logger.info("New User created");
     }
 
@@ -31,6 +35,8 @@ public class User {
         this.email = email;
         this.password = password;
         this.salt = null;
+        this.jwtToken = null;
+        this.isVerified = false;
         logger.info("New User created");
     }
 
@@ -40,6 +46,8 @@ public class User {
         this.email = email;
         this.password = password;
         this.salt = salt;
+        this.jwtToken = null;
+        this.isVerified = false;
         logger.info("New User created");
     }
 
@@ -75,5 +83,28 @@ public class User {
         this.salt = salt;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public String getJwtToken() {
+        return jwtToken;
+    }
+
+    public void setJwtToken(String jwtToken) {
+        this.jwtToken = jwtToken;
+    }
 }
 

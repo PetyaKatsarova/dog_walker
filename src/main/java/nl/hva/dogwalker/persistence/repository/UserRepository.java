@@ -38,4 +38,15 @@ public class UserRepository {
         jdbcUserDao.saveUser(user);
         return user;
     }
+    public User updateUser(User user) {
+        return jdbcUserDao.updateUser(user);
+    }
+
+    public User finduserByJwtToken(String jwtoken) {
+        return jdbcUserDao.findUserByjwtToken(jwtoken);
+    }
+
+    public User findUserById(int idUser) {
+        return jdbcUserDao.findUserById(idUser);
+    }
 }

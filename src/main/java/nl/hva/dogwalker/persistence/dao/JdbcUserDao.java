@@ -8,7 +8,6 @@ package nl.hva.dogwalker.persistence.dao;
  */
 
 import nl.hva.dogwalker.business.domain.User;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.KeyHolder;
@@ -33,8 +32,6 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public User saveUser(User user) {
-//            if (isEmailExists(user.getEmail()))
-//                throw new RuntimeException("Email already exists"); // error status 409
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> buildInsertCustomerStatement(user, connection), keyHolder);
@@ -49,18 +46,15 @@ public class JdbcUserDao implements UserDao {
 
     private PreparedStatement buildInsertCustomerStatement(User user, Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(
-                "INSERT INTO User(email, hashed_password, salt) " +
+                "INSERT INTO User(email, hashed_password, salt, jwttoken, isVerified) " +
                         "VALUES (?,?,?)",
                 Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, user.getEmail());
         ps.setString(2, user.getPasswordHash());
         ps.setString(3, user.getSalt());
+        ps.setString(4, user.getJwtToken());
+        ps.setBoolean(5, user.isVerified());
         return ps;
-    }
-    public boolean isEmailExists(String email) {
-        String sql = "SELECT COUNT(*) FROM user WHERE email = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class);
-        return count != null && count > 0;
     }
 
     public Optional<User> findUserByEmail(String email) {
@@ -74,6 +68,7 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+
     class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -86,12 +81,26 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
-    //    @Override  TODO: add password forgotten/reset functionality
-//    public User updateUser(User user) {
-//        jdbcTemplate.update("UPDATE User SET email = ?, password = ?, salt = ?, isVerified = ?, " +
-//                        "resetToken = ?, jwtToken = ?, highscore = ? WHERE idUser = ?",
-//                user.getEmail(), user.getPassword(), user.getSalt(), user.isVerified(),
-//                user.getResetToken(), user.getJwtToken(), user.getHighscore(), user.getIdUser());
-//        return user;
-//    }
+    public User updateUser(User user) {
+        jdbcTemplate.update("UPDATE User SET email = ?, hashed_password = ?, salt = ?, isVerified = ?, jwtToken = ?, WHERE id = ?",
+                user.getEmail(), user.getPassword(), user.getSalt(), user.isVerified(), user.getJwtToken(), user.getIdU());
+        return user;
+    }
+
+    public User findUserById(int idUser) {
+        String query = "SELECT * FROM User WHERE id = ?;";
+        List<User> users = jdbcTemplate.query(query, new UserRowMapper(), idUser);
+        if (users.size() == 1) {
+            return users.get(0);
+        }
+        return null;
+    }
+    public User findUserByjwtToken(String jwtToken) {
+        String query = "SELECT * FROM User WHERE jwtToken = ?;";
+        List<User> users = jdbcTemplate.query(query, new UserRowMapper(), jwtToken);
+        if (users.size() == 1) {
+            return users.get(0);
+        }
+        return null;
+    }
 }

@@ -22,9 +22,8 @@ import org.springframework.http.HttpStatus;
 @RestController
 public class RegistrationController {
 
-    private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private final Logger                logger = LoggerFactory.getLogger(RegistrationController.class);
     private final RegistrationService   registrationService;
-
     private final UserService           userService;
 //    private final ApplicationEventPublisher publisher; todo: expand the app
 
@@ -66,26 +65,6 @@ public class RegistrationController {
             this.password = password;
         }
     }
-
-
-//    @PostMapping("/signup")
-//    public ResponseEntity<String> userSignInHandler(@RequestParam String email, @RequestParam String password,
-//                                                    final HttpServletRequest request) {
-//        try {
-//            User user = registrationService.register(email, password);
-////            publisher.publishEvent(new RegistrationCompleteEvent(user, applicationUrl(request)));
-//            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
-//        } catch (UserExistsException e) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with this email already exists");
-//        } catch (PasswordNotValidException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password is not valid");
-////    } catch (EmailSendingException e) {
-////        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body("Error sending verification email");
-//        } catch (Exception e) {
-//            logger.error("LALALA " + registrationService.register(email, password));
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during registration: " + e.getMessage());
-//        }
-//    }
 
 // todo: for next stage
     public String applicationUrl(HttpServletRequest request) {
